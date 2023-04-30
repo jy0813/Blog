@@ -9,17 +9,12 @@
 
 .primary {
   color: #fff;
-  background-color: #000;
-  border: 1px solid #000;
+  background-color: #35c5f0;
+  border: 1px solid #35c5f0;
 }
 
 .primary:hover {
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0.3)
-    ),
-    #111111;
+  background-color: #009fce;
 }
 
 .secondary {

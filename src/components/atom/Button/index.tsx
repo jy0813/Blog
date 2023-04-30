@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import Button from './index';
 import styles from './index.module.css';
 
 type ButtonType = 'primary' | 'secondary';
@@ -7,10 +6,10 @@ type ButtonSize = 'small' | 'medium' | 'large' | 'full';
 
 interface IProps {
   children: ReactNode;
-  className?: string;
+  classBind?: string;
   size?: ButtonSize;
   type?: ButtonType;
-  disabled: boolean;
+  disabled?: boolean;
   onClick: () => void;
 }
 
@@ -20,6 +19,7 @@ function Index({
   disabled = false,
   type = 'primary',
   size = 'full',
+  classBind,
 }: IProps) {
   const btnSizeClass =
     size === 'full'
@@ -32,13 +32,13 @@ function Index({
 
   const btnTypeClass = type === 'primary' ? styles.primary : styles.secondary;
   return (
-    <Button
-      className={`${styles.button} ${btnSizeClass} ${btnTypeClass}`}
+    <button
+      className={`${styles.button} ${btnSizeClass} ${btnTypeClass} ${classBind}`}
       onClick={onClick}
       disabled={disabled}
     >
       {children}
-    </Button>
+    </button>
   );
 }
 

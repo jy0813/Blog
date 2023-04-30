@@ -1,0 +1,9 @@
+@font-face {
+  unicode-range: U+AC00-D7A3, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
+  font-family: 'Jal Onuel';
+  font-style: normal;
+  font-weight: normal;
+  src: local(''), url('./잘풀리는오늘 Medium.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('./잘풀리는오늘 Medium.woff')
+      format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}

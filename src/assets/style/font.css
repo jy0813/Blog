@@ -1,0 +1,12 @@
+@import '../fonts/inter/inter.css';
+@import '../fonts/noto_sans_kr/noto_sans_kr.css';
+@import '../fonts/jal_hru/jal_haru.css';
+@import '../fonts/jal_onuel/jal_onuel.css';
+
+html,
+body {
+  font-family: 'Jal Haru', 'Jal Onuel', 'Inter', 'Noto Sans KR', -apple-system,
+    BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica,
+    Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+  -webkit-overflow-scrolling: touch;
+}

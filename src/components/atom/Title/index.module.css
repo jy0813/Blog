@@ -1,0 +1,29 @@
+h1.heading {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+h2.heading {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
+h3.heading {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+h4.heading {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+h5.heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+h6.heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+}

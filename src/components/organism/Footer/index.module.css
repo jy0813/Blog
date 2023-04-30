@@ -1,0 +1,87 @@
+footer {
+  display: flex;
+  padding: 4rem 0;
+  background-color: rgb(247, 249, 250);
+}
+
+.footer-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-column-gap: 60px;
+  max-width: 128rem;
+  padding: 0 6rem;
+  margin: 0 auto;
+}
+
+.footer-wrap .customer-area .customer-link {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 2.4rem;
+}
+
+.footer-wrap .customer-area .customer-info a {
+  display: inline-block;
+  margin: 2rem 1rem 1rem 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2rem;
+}
+
+.footer-wrap .customer-area .customer-info time {
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+
+.footer-wrap .customer-area .customer-info p {
+  margin-bottom: 1.2rem;
+  font-size: 1.2rem;
+  white-space: pre-wrap;
+  line-height: 2rem;
+}
+
+.footer-wrap .customer-area .customer-info .email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 10rem;
+  height: 3.2rem;
+  padding: 0 1.6rem;
+  margin: 1rem 0 0;
+  letter-spacing: -0.5px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: inherit;
+  border: 1px solid #000;
+  background-color: #fff;
+}
+
+.footer-wrap .customer-area .customer-info .email:hover {
+  background: rgba(17, 17, 17, 0.06);
+}
+
+.footer-wrap .menu-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(6, min-content);
+  grid-auto-flow: column;
+  gap: 20px 10px;
+}
+
+.footer-wrap .menu-area a {
+  display: inline-block;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  color: rgb(47, 52, 56);
+  white-space: nowrap;
+}
+
+.footer-wrap .info-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: rgb(130, 140, 148);
+}

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './assets/style/global.css';
 import './App.css';
 import { Outlet } from 'react-router';
 
