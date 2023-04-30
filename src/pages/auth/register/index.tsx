@@ -9,7 +9,7 @@ import naver from '../../../assets/images/sns-naver.png';
 import InputBtn from '../../../components/molecule/InputBtn';
 import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
-import InputLabel from '../../../components/molecule/InputLabel';
+import InputLabel from '../../../components/atom/InputLabel';
 
 function Index() {
   const [isChecked, setIsChecked] = useState<boolean>(false);
