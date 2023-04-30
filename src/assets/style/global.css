@@ -35,11 +35,11 @@
   width: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-grey3);
+  background-color: #ccc;
   border-radius: 8px;
 }
 ::-webkit-scrollbar-track {
-  background-color: var(--color-grey2);
+  background-color: #ccc;
   border-radius: 8px;
 }
 

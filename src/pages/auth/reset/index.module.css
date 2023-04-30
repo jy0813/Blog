@@ -1,0 +1,32 @@
+.reset-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.reset-wrap .reset-area p {
+  margin-bottom: 1.2rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+
+.reset-wrap .customer-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: rgb(247, 248, 250);
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+.reset-wrap .customer-area a {
+  display: block;
+  font-weight: 700;
+  color: rgb(53, 197, 240);
+}

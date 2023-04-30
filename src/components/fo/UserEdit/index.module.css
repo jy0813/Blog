@@ -1,0 +1,9 @@
+.edit-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem 0;
+}
+
+.edit-area {
+}

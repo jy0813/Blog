@@ -8,7 +8,7 @@ interface IContainer {
   classBind?: string;
 }
 
-function Index({ children, size, classBind }: IContainer) {
+function Index({ children, size = 'medium', classBind }: IContainer) {
   const containerSizeClass =
     size === 'large'
       ? styles.large

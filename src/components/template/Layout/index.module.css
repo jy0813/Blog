@@ -1,3 +1,5 @@
 .main {
-  min-height: calc(var(--vh, 1vh) * 100 - 37.2rem);
+  display: flex;
+  flex-direction: column;
+  min-height: calc(var(--vh, 1vh) * 100 - 37.3rem);
 }

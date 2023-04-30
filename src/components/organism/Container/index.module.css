@@ -1,14 +1,21 @@
 .container.large {
+  position: relative;
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .container.medium {
+  position: relative;
   max-width: 1280px;
+  width: 100%;
+  padding: 0 6rem;
   margin: 0 auto;
 }
 
 .container.small {
+  position: relative;
   max-width: 1024px;
+  width: 100%;
   margin: 0 auto;
 }

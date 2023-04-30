@@ -4,7 +4,7 @@ import Footer from '../../organism/Footer';
 import styles from './index.module.css';
 
 interface IProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 function Index({ children }: IProps) {

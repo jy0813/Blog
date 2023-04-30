@@ -2,6 +2,12 @@ header {
   display: flex;
 }
 
+.sticky-container {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #eaedef;
+}
+
 .header-wrap {
   display: flex;
   justify-content: space-between;
@@ -33,6 +39,11 @@ header {
   align-items: center;
 }
 
+.user-wrap .user-area {
+  display: flex;
+  align-items: center;
+}
+
 .user-wrap .user-area a {
   font-size: 1.4rem;
   padding: 0 1rem;
@@ -41,4 +52,31 @@ header {
 
 .user-wrap .user-area a:last-of-type {
   border-right: none;
+}
+
+.user-wrap .user-area .user-profile {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  width: 4rem;
+  height: 4rem;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 100%;
+  font: inherit;
+  outline: none;
+}
+
+.user-wrap .user-area .user-profile:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  border: 2px solid #35c5f0;
+  box-sizing: border-box;
 }

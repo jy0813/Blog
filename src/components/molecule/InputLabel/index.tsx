@@ -5,6 +5,8 @@ interface IProps {
   name?: string;
   value: string | number;
   type: string;
+  infoText?: string;
+  labelText: string;
   placeholder: string;
   classBind?: string;
   disabled?: boolean;
@@ -16,6 +18,8 @@ function Index({
   name,
   value,
   type,
+  infoText,
+  labelText,
   placeholder,
   classBind,
   onChange,
@@ -24,18 +28,20 @@ function Index({
 }: IProps) {
   return (
     <div className={`${classBind} ${styles['input_wrap']}`}>
-      <label className={`${styles['input_label']}`}>
-        <input
-          name={name}
-          value={value}
-          type={type}
-          placeholder={placeholder}
-          className={styles.input}
-          onChange={onChange}
-          disabled={disabled}
-          maxLength={maxLength}
-        />
+      <label htmlFor={name} className={styles.label}>
+        {labelText}
       </label>
+      {infoText ? <p className={styles.info}>{infoText}</p> : ''}
+      <input
+        name={name}
+        value={value}
+        type={type}
+        placeholder={placeholder}
+        className={styles.input}
+        onChange={onChange}
+        disabled={disabled}
+        maxLength={maxLength}
+      />
     </div>
   );
 }

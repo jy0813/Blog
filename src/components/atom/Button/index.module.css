@@ -49,8 +49,8 @@
 
 .button:disabled,
 .button[disabled]:hover {
-  color: #ccc;
-  background: #777;
+  color: #fff;
+  background: #c7effb;
   border: 0;
   cursor: not-allowed;
 }
