@@ -8,7 +8,7 @@ interface IProps {
   accept: string;
   disabled?: boolean;
   classBind?: string;
-  labelText?: string;
+  labelText: string;
   onChange: () => void;
 }
 
@@ -23,20 +23,21 @@ function Index({
   labelText,
 }: IProps) {
   return (
-    <div>
-      <label htmlFor={name} className={styles.label}>
-        {labelText}
+    <div className={`${classBind}`}>
+      <label className={styles.label}>{labelText}</label>
+      <label htmlFor={name} className={styles.thumbnail}>
+        <input
+          type="file"
+          id={name}
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          className={`${styles.input} ${classBind}`}
+          onChange={onChange}
+          disabled={disabled}
+          accept={accept}
+        />
       </label>
-      <input
-        type="file"
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        className={`${styles.input} ${classBind}`}
-        onChange={onChange}
-        disabled={disabled}
-        accept={accept}
-      />
     </div>
   );
 }

@@ -46,11 +46,11 @@ function Index({ userData }: IProps) {
         <File
           classBind="mb-[3rem]"
           name="profileimage"
-          value={''}
           labelText={'프로필 이미지'}
+          value={''}
           placeholder={'프로필 이미지'}
-          onChange={() => console.log('')}
-          accept={'image/jpg, image/png, image/jpeg'}
+          onChange={() => console.log('dasfas')}
+          accept={'image/*'}
         />
         <InputLabel
           classBind="mb-[3rem]"

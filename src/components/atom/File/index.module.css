@@ -7,8 +7,19 @@
   word-break: keep-all;
 }
 
+.thumbnail {
+  display: block;
+  width: 20rem;
+  height: 20rem;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid #dbdbdb;
+  background-color: #d8d8d8;
+  font-size: 0;
+  cursor: pointer;
+}
+
 .input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none;
 }

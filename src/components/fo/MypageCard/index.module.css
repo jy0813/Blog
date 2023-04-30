@@ -2,6 +2,7 @@
   position: sticky;
   top: 0;
   left: 6rem;
+  height: 100%;
   padding: 3rem 0;
   max-width: 30rem;
 }
