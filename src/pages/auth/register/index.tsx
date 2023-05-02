@@ -11,8 +11,27 @@ import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
 import InputLabel from '../../../components/atom/InputLabel';
 
+type RegisterProps = {
+  userName: string;
+  email: string;
+  password: string;
+  isMarketing: boolean;
+  isEvent: boolean;
+};
+
 function Index() {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [inputValues, setInputValue] = useState<RegisterProps>({
+    userName: '',
+    email: '',
+    password: '',
+    isMarketing: false,
+    isEvent: false,
+  });
+  const { userName, email, password, isMarketing, isEvent } = inputValues;
+
+  const isInputValueEmpty = [userName, email, password].some((value) => !value);
+
   return (
     <main className={styles['register-wrap']}>
       <h1>
@@ -42,20 +61,24 @@ function Index() {
           <InputBtn classBind="mb-[3rem]">
             <InputBtn.InputLabel
               name="email"
-              value={''}
+              value={userName}
               type={'text'}
               labelText={'이메일'}
               placeholder={'이메일'}
               onChange={() => console.log('')}
             />
-            <InputBtn.Button size={'large'} onClick={() => console.log('')}>
+            <InputBtn.Button
+              size={'large'}
+              disabled={!userName}
+              onClick={() => console.log('')}
+            >
               인증
             </InputBtn.Button>
           </InputBtn>
           <InputLabel
             classBind="w-full mb-[3rem]"
             name="password"
-            value={''}
+            value={password}
             type={'text'}
             infoText={'영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.'}
             labelText={'비밀번호'}
@@ -73,8 +96,8 @@ function Index() {
           />
           <InputLabel
             classBind="w-full  mb-[3rem]"
-            name="nickname"
-            value={''}
+            name="username"
+            value={userName}
             type={'text'}
             infoText={'다른 유저와 겹치지 않도록 입력해주세요. (2~15자)'}
             labelText={'닉네임'}
@@ -86,55 +109,59 @@ function Index() {
           <div className={styles['agree-area']}>
             <div className={styles['all-checkbox-area']}>
               <Checkbox
-                checked={isChecked}
+                checked={isAllChecked}
                 required={true}
-                onChange={() => setIsChecked((prev) => !prev)}
+                onChange={() => setIsAllChecked((prev) => !prev)}
               >
                 전체동의
               </Checkbox>
             </div>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isChecked}
+              checked={isAllChecked}
               required={true}
-              onChange={() => setIsChecked((prev) => !prev)}
+              onChange={() => setIsAllChecked((prev) => !prev)}
             >
               만 14세 이상입니다
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isChecked}
+              checked={isAllChecked}
               required={true}
-              onChange={() => setIsChecked((prev) => !prev)}
+              onChange={() => setIsAllChecked((prev) => !prev)}
             >
               이용약관
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isChecked}
+              checked={isAllChecked}
               required={true}
-              onChange={() => setIsChecked((prev) => !prev)}
+              onChange={() => setIsAllChecked((prev) => !prev)}
             >
               개인정보수집 및 이용동의
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isChecked}
+              checked={isMarketing}
               required={false}
-              onChange={() => setIsChecked((prev) => !prev)}
+              onChange={() => setIsAllChecked((prev) => !prev)}
             >
               개인정보 마케팅 활용 동의
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isChecked}
+              checked={isEvent}
               required={false}
-              onChange={() => setIsChecked((prev) => !prev)}
+              onChange={() => setIsAllChecked((prev) => !prev)}
             >
               이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신
             </Checkbox>
           </div>
-          <Button classBind="mt-[3rem]" onClick={() => console.log('')}>
+          <Button
+            classBind="mt-[3rem]"
+            disabled={isInputValueEmpty}
+            onClick={() => console.log('')}
+          >
             회원가입하기
           </Button>
           <p className={styles['login-area']}>

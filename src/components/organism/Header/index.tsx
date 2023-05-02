@@ -7,7 +7,7 @@ import Input from '../../atom/Input';
 import Button from '../../atom/Button';
 
 function Index() {
-  const [userData, setUserData] = useState<boolean>(true);
+  const [userData, setUserData] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   return (
     <header>
