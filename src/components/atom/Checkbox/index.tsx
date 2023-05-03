@@ -11,7 +11,7 @@ interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Index({
+function Checkbox({
   checked = false,
   children,
   disabled = false,
@@ -21,7 +21,7 @@ function Index({
   required,
 }: IProps) {
   return (
-    <label htmlFor={name} className={`${styles.label} ${classBind}`}>
+    <label className={`${styles.label} ${classBind}`}>
       <input
         name={name}
         className={styles.input}
@@ -43,4 +43,4 @@ function Index({
   );
 }
 
-export default Index;
+export default Checkbox;

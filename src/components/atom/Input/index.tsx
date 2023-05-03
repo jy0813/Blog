@@ -12,7 +12,7 @@ interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Index({
+function Input({
   name,
   value,
   type,
@@ -40,4 +40,4 @@ function Index({
   );
 }
 
-export default Index;
+export default Input;

@@ -13,7 +13,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function Index({
+function Button({
   children,
   onClick,
   disabled = false,
@@ -42,4 +42,4 @@ function Index({
   );
 }
 
-export default Index;
+export default Button;

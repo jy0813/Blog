@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginLogo from '../../../assets/images/login-logo.png';
 import styles from './index.module.css';
@@ -10,27 +10,67 @@ import InputBtn from '../../../components/molecule/InputBtn';
 import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
 import InputLabel from '../../../components/atom/InputLabel';
+import axios from 'axios';
 
 type RegisterProps = {
   userName: string;
   email: string;
   password: string;
+  passwordConfirm: string;
+  ageCheck: boolean;
+  agreeToTerms: boolean;
+  agreeToPrivacyPolicy: boolean;
   isMarketing: boolean;
   isEvent: boolean;
 };
 
 function Index() {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [isCheckedList, setIsCheckedList] = useState<string[]>([]);
   const [inputValues, setInputValue] = useState<RegisterProps>({
     userName: '',
     email: '',
     password: '',
+    passwordConfirm: '',
+    ageCheck: false,
+    agreeToTerms: false,
+    agreeToPrivacyPolicy: false,
     isMarketing: false,
     isEvent: false,
   });
-  const { userName, email, password, isMarketing, isEvent } = inputValues;
+  const {
+    userName,
+    email,
+    password,
+    passwordConfirm,
+    isMarketing,
+    isEvent,
+    ageCheck,
+    agreeToTerms,
+    agreeToPrivacyPolicy,
+  } = inputValues;
 
   const isInputValueEmpty = [userName, email, password].some((value) => !value);
+
+  const handleInputValues = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setInputValue((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
+  const handleAllCheckbox = () => {
+    setIsAllChecked((prev) => !prev);
+  };
 
   return (
     <main className={styles['register-wrap']}>
@@ -61,15 +101,15 @@ function Index() {
           <InputBtn classBind="mb-[3rem]">
             <InputBtn.InputLabel
               name="email"
-              value={userName}
+              value={email}
               type={'text'}
               labelText={'이메일'}
               placeholder={'이메일'}
-              onChange={() => console.log('')}
+              onChange={handleInputValues}
             />
             <InputBtn.Button
               size={'large'}
-              disabled={!userName}
+              disabled={!email}
               onClick={() => console.log('')}
             >
               인증
@@ -79,80 +119,86 @@ function Index() {
             classBind="w-full mb-[3rem]"
             name="password"
             value={password}
-            type={'text'}
+            type={'password'}
             infoText={'영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.'}
             labelText={'비밀번호'}
             placeholder={'비밀번호'}
-            onChange={() => console.log('')}
+            onChange={handleInputValues}
           />
           <InputLabel
             classBind="w-full  mb-[3rem]"
-            name="passwordconfirm"
-            value={''}
-            type={'text'}
+            name="passwordConfirm"
+            value={passwordConfirm}
+            type={'password'}
             labelText={'비밀번호 확인'}
             placeholder={'비밀번호 확인'}
-            onChange={() => console.log('')}
+            onChange={handleInputValues}
           />
           <InputLabel
             classBind="w-full  mb-[3rem]"
-            name="username"
+            name="userName"
             value={userName}
             type={'text'}
             infoText={'다른 유저와 겹치지 않도록 입력해주세요. (2~15자)'}
             labelText={'닉네임'}
             placeholder={'닉네임'}
             maxLength={15}
-            onChange={() => console.log('')}
+            onChange={handleInputValues}
           />
           <Title title={'약관동의'} level={5} />
           <div className={styles['agree-area']}>
             <div className={styles['all-checkbox-area']}>
               <Checkbox
+                name="allAgree"
                 checked={isAllChecked}
                 required={true}
-                onChange={() => setIsAllChecked((prev) => !prev)}
+                onChange={handleAllCheckbox}
               >
                 전체동의
               </Checkbox>
             </div>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isAllChecked}
+              name="ageCheck"
+              checked={ageCheck}
               required={true}
-              onChange={() => setIsAllChecked((prev) => !prev)}
+              onChange={handleCheckbox}
             >
               만 14세 이상입니다
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isAllChecked}
+              name="agreeToTerms"
+              checked={agreeToTerms}
               required={true}
-              onChange={() => setIsAllChecked((prev) => !prev)}
+              onChange={handleCheckbox}
             >
               이용약관
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
-              checked={isAllChecked}
+              name="agreeToPrivacyPolicy"
+              checked={agreeToPrivacyPolicy}
               required={true}
-              onChange={() => setIsAllChecked((prev) => !prev)}
+              onChange={handleCheckbox}
             >
               개인정보수집 및 이용동의
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
+              name="isMarketing"
               checked={isMarketing}
               required={false}
-              onChange={() => setIsAllChecked((prev) => !prev)}
+              onChange={handleCheckbox}
             >
               개인정보 마케팅 활용 동의
             </Checkbox>
             <Checkbox
               classBind="mt-[2rem]"
+              name="isEvent"
               checked={isEvent}
               required={false}
-              onChange={() => setIsAllChecked((prev) => !prev)}
+              onChange={handleCheckbox}
             >
               이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신
             </Checkbox>

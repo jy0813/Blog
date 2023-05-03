@@ -2,7 +2,7 @@ import React from 'react';
 import Title from '../../atom/Title';
 import styles from './index.module.css';
 import Button from '../../atom/Button';
-import { UserData } from '../../../pages/auth/mypage';
+import { UserData } from '@/pages/auth/mypage';
 import scrapBook from '../../../assets/images/scrap-img.png';
 import like from '../../../assets/images/like-img.png';
 import coupon from '../../../assets/images/coupon-img.png';

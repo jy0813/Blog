@@ -12,7 +12,7 @@ interface IProps {
   onChange: () => void;
 }
 
-function Index({
+function File({
   name,
   value,
   placeholder,
@@ -25,7 +25,7 @@ function Index({
   return (
     <div className={`${classBind}`}>
       <label className={styles.label}>{labelText}</label>
-      <label htmlFor={name} className={styles.thumbnail}>
+      <label className={styles.thumbnail}>
         <input
           type="file"
           id={name}
@@ -42,4 +42,4 @@ function Index({
   );
 }
 
-export default Index;
+export default File;

@@ -3,8 +3,8 @@ import Title from '../../atom/Title';
 import styles from './index.module.css';
 import InputLabel from '../../atom/InputLabel';
 import Button from '../../atom/Button';
-import { UserData } from '../../../pages/auth/mypage';
 import File from '../../atom/File';
+import { UserData } from '@/pages/auth/mypage';
 
 interface IProps {
   userData: UserData;

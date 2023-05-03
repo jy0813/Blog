@@ -14,7 +14,7 @@ interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Index({
+function InputLabel({
   name,
   value,
   type,
@@ -28,9 +28,7 @@ function Index({
 }: IProps) {
   return (
     <div className={`${classBind} ${styles['input_wrap']}`}>
-      <label htmlFor={name} className={styles.label}>
-        {labelText}
-      </label>
+      <label className={styles.label}>{labelText}</label>
       {infoText ? <p className={styles.info}>{infoText}</p> : ''}
       <input
         name={name}
@@ -46,4 +44,4 @@ function Index({
   );
 }
 
-export default Index;
+export default InputLabel;
