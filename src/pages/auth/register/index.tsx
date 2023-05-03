@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginLogo from '../../../assets/images/login-logo.png';
 import styles from './index.module.css';
@@ -10,7 +10,6 @@ import InputBtn from '../../../components/molecule/InputBtn';
 import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
 import InputLabel from '../../../components/atom/InputLabel';
-import axios from 'axios';
 
 type RegisterProps = {
   userName: string;
@@ -26,7 +25,6 @@ type RegisterProps = {
 
 function Index() {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
-  const [isCheckedList, setIsCheckedList] = useState<string[]>([]);
   const [inputValues, setInputValue] = useState<RegisterProps>({
     userName: '',
     email: '',
@@ -69,8 +67,26 @@ function Index() {
   };
 
   const handleAllCheckbox = () => {
+    setInputValue((prev) => ({
+      ...prev,
+      ageCheck: !prev.ageCheck,
+      agreeToTerms: !prev.agreeToTerms,
+      agreeToPrivacyPolicy: !prev.agreeToPrivacyPolicy,
+      isMarketing: !prev.isMarketing,
+      isEvent: !prev.isEvent,
+    }));
     setIsAllChecked((prev) => !prev);
   };
+
+  useEffect(() => {
+    setIsAllChecked(
+      ageCheck &&
+        agreeToTerms &&
+        agreeToPrivacyPolicy &&
+        isMarketing &&
+        isEvent,
+    );
+  }, [inputValues]);
 
   return (
     <main className={styles['register-wrap']}>
