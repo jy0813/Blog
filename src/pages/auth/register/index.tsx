@@ -10,6 +10,7 @@ import InputBtn from '../../../components/molecule/InputBtn';
 import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
 import InputLabel from '../../../components/atom/InputLabel';
+import EmailAuthCode from '../../../components/fo/EmailAuthCode';
 
 type RegisterProps = {
   userName: string;
@@ -25,6 +26,7 @@ type RegisterProps = {
 
 function Index() {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [emailAuth, setEmailAuth] = useState<boolean>(false);
   const [inputValues, setInputValue] = useState<RegisterProps>({
     userName: '',
     email: '',
@@ -67,15 +69,20 @@ function Index() {
   };
 
   const handleAllCheckbox = () => {
+    setIsAllChecked((prev) => !prev);
+    const isChecked = !isAllChecked;
     setInputValue((prev) => ({
       ...prev,
-      ageCheck: !prev.ageCheck,
-      agreeToTerms: !prev.agreeToTerms,
-      agreeToPrivacyPolicy: !prev.agreeToPrivacyPolicy,
-      isMarketing: !prev.isMarketing,
-      isEvent: !prev.isEvent,
+      ageCheck: isChecked,
+      agreeToTerms: isChecked,
+      agreeToPrivacyPolicy: isChecked,
+      isMarketing: isChecked,
+      isEvent: isChecked,
     }));
-    setIsAllChecked((prev) => !prev);
+  };
+
+  const handleEmailAuth = () => {
+    setEmailAuth(true);
   };
 
   useEffect(() => {
@@ -126,11 +133,12 @@ function Index() {
             <InputBtn.Button
               size={'large'}
               disabled={!email}
-              onClick={() => console.log('')}
+              onClick={handleEmailAuth}
             >
               인증
             </InputBtn.Button>
           </InputBtn>
+          {emailAuth ? <EmailAuthCode classBind="mb-[3rem]" /> : null}
           <InputLabel
             classBind="w-full mb-[3rem]"
             name="password"

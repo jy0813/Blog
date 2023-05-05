@@ -5,6 +5,7 @@
   padding: 0 1.6rem;
   letter-spacing: -0.5px;
   border-radius: 3px;
+  flex-shrink: 1;
 }
 
 .primary {

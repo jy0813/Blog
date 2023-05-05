@@ -5,7 +5,6 @@
   justify-content: center;
   min-height: calc(var(--vh, 1vh) * 100);
   padding: 2rem 0;
-  background-color: #fafafa;
   text-align: left;
 }
 

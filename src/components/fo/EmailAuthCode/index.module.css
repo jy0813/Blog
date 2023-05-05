@@ -1,0 +1,28 @@
+.auth-wrap {
+  padding: 2rem 1.6rem;
+  background-color: rgb(247, 248, 250);
+  box-sizing: border-box;
+}
+
+.info {
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+  line-height: 2rem;
+}
+
+.resend {
+  display: flex;
+  align-items: center;
+  margin-top: 1.6rem;
+}
+
+.resend img {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-right: 0.5rem;
+}
+
+.resend button {
+  margin-left: 0.5rem;
+  text-decoration: underline;
+}
