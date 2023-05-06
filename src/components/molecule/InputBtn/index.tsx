@@ -7,10 +7,18 @@ import InputLabel from '../../atom/InputLabel';
 interface IProps {
   children: ReactNode;
   classBind?: string;
+  isError?: boolean;
+  errorMsg?: string;
 }
 
-function Index({ children, classBind }: IProps) {
-  return <div className={`${styles.input_btn} ${classBind}`}>{children}</div>;
+function Index({ children, classBind, isError = false, errorMsg }: IProps) {
+  const errorStyles = isError ? styles.error : '';
+  return (
+    <div className={`${styles.input_btn} ${classBind}`}>
+      {children}
+      {isError && <p className={`${errorStyles}`}>{errorMsg}</p>}
+    </div>
+  );
 }
 
 export default Index;

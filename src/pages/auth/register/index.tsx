@@ -147,6 +147,8 @@ function Index() {
             infoText={'영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.'}
             labelText={'비밀번호'}
             placeholder={'비밀번호'}
+            isError={true}
+            errorMsg={'테스트 입니다.'}
             onChange={handleInputValues}
           />
           <InputLabel

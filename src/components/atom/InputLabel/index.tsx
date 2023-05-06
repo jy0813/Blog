@@ -11,6 +11,8 @@ interface IProps {
   classBind?: string;
   disabled?: boolean;
   maxLength?: number;
+  isError?: boolean;
+  errorMsg?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -24,8 +26,11 @@ function InputLabel({
   classBind,
   onChange,
   disabled = false,
+  isError = false,
+  errorMsg,
   maxLength = 524288,
 }: IProps) {
+  const errorStyles = isError ? styles.error : '';
   return (
     <div className={`${classBind} ${styles['input_wrap']}`}>
       <label className={styles.label}>{labelText}</label>
@@ -35,11 +40,12 @@ function InputLabel({
         value={value}
         type={type}
         placeholder={placeholder}
-        className={styles.input}
+        className={`${styles.input} ${errorStyles}`}
         onChange={onChange}
         disabled={disabled}
         maxLength={maxLength}
       />
+      {isError && <p className={`${errorStyles}`}>{errorMsg}</p>}
     </div>
   );
 }

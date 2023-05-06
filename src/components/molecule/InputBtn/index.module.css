@@ -3,3 +3,9 @@
   align-items: flex-end;
   column-gap: 1.6rem;
 }
+
+p.error {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  color: rgb(255, 119, 119);
+}

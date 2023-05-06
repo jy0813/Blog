@@ -14,6 +14,10 @@
   width: 100%;
 }
 
+.input.error {
+  border: 1px solid rgb(255, 119, 119);
+}
+
 .input::placeholder {
   color: #ccc;
 }
@@ -23,9 +27,19 @@
   border: 1px solid transparent;
 }
 
+.input.error:focus {
+  outline: 1px solid rgb(255, 119, 119);
+}
+
 .input:disabled {
   pointer-events: none;
   color: #ccc;
   background-color: #777;
   border: 1px solid #ccc;
+}
+
+p.error {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  color: rgb(255, 119, 119);
 }
