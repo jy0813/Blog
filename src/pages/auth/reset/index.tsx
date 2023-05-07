@@ -17,21 +17,15 @@ function Index() {
         <div className={styles['reset-wrap']}>
           <div className={styles['reset-area']}>
             <p>가입한 이메일 주소를 입력해주세요.</p>
-            {/*<InputBtn>*/}
-            {/*  <InputBtn.Input*/}
-            {/*    value={emailValue}*/}
-            {/*    type={'text'}*/}
-            {/*    placeholder={'이메일'}*/}
-            {/*    onChange={(e) => setEmailValue(e.target.value)}*/}
-            {/*  />*/}
-            {/*  <InputBtn.Button*/}
-            {/*    size={'large'}*/}
-            {/*    disabled={!emailValue}*/}
-            {/*    onClick={() => console.log('')}*/}
-            {/*  >*/}
-            {/*    확인*/}
-            {/*  </InputBtn.Button>*/}
-            {/*</InputBtn>*/}
+            <InputBtn
+              name="emailValue"
+              value={emailValue}
+              type={'text'}
+              buttonText={'확인'}
+              placeholder={'이메일'}
+              onChange={(e) => setEmailValue(e.target.value)}
+              onClick={() => console.log('')}
+            />
           </div>
           <Button classBind="mt-[2rem]" onClick={() => console.log('')}>
             이메일로 인증코드 받기

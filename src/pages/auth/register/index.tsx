@@ -10,7 +10,7 @@ import InputBtn from '../../../components/molecule/InputBtn';
 import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
 import EmailAuthCode from '../../../components/fo/EmailAuthCode';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Input from '../../../components/atom/Input';
 
 type RegisterProps = {
@@ -93,7 +93,6 @@ function Index() {
   }, [inputValues]);
 
   const submitEmail = async () => {
-    setEmailAuth(true);
     try {
       const { data, status } = await axios.post(
         'http://localhost:8000/api/auth/email',
@@ -102,11 +101,17 @@ function Index() {
         },
       );
       if (status === 201) {
+        setEmailAuth(true);
         await localStorage.setItem('randomNumber', data.number);
         alert('please check your email');
       }
     } catch (err) {
-      console.log(err);
+      if (err instanceof AxiosError) {
+        const errorMessage = err.response?.data.message;
+        if (errorMessage === 'User with this email does not exist') {
+          alert('error');
+        }
+      }
     }
   };
 
