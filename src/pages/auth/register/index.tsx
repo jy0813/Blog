@@ -25,6 +25,13 @@ type RegisterProps = {
   isEvent: boolean;
 };
 
+type ErrorState = {
+  [key: string]: {
+    isError: boolean;
+    errorMsg: string;
+  };
+};
+
 function Index() {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const [emailAuth, setEmailAuth] = useState<boolean>(false);
@@ -39,6 +46,21 @@ function Index() {
     isMarketing: false,
     isEvent: false,
   });
+  const [validates, setValidates] = useState<ErrorState>({
+    email: {
+      isError: false,
+      errorMsg: '',
+    },
+    password: {
+      isError: false,
+      errorMsg: '',
+    },
+    passwordConfirm: {
+      isError: false,
+      errorMsg: '',
+    },
+  });
+
   const {
     userName,
     email,
@@ -58,6 +80,13 @@ function Index() {
     setInputValue((prev) => ({
       ...prev,
       [name]: value,
+    }));
+    setValidates((prev) => ({
+      ...prev,
+      [name]: {
+        isError: false,
+        errorMsg: '',
+      },
     }));
   };
 
@@ -82,6 +111,17 @@ function Index() {
     }));
   };
 
+  const handleValidation = (name: string, errorMsg: string) => {
+    setValidates((prev) => {
+      const newValidates = { ...prev };
+      newValidates[name] = {
+        isError: true,
+        errorMsg: `${errorMsg}`,
+      };
+      return newValidates;
+    });
+  };
+
   useEffect(() => {
     setIsAllChecked(
       ageCheck &&
@@ -92,26 +132,48 @@ function Index() {
     );
   }, [inputValues]);
 
+  const sendDuplicateRequest = async (email: string) => {
+    const { data } = await axios.post(
+      'http://localhost:8000/api/auth/duplicate/email',
+      { email },
+    );
+    return data;
+  };
+
+  const sendEmailRequest = async (email: string) => {
+    const { data } = await axios.post('http://localhost:8000/api/auth/email', {
+      email,
+    });
+    setValidates((prev) => ({
+      ...prev,
+      email: {
+        isError: false,
+        errorMsg: '',
+      },
+    }));
+    return data;
+  };
+
+  const handleRequestError = (err: unknown) => {
+    if (err instanceof AxiosError) {
+      const errorMessage = err.response?.data.message;
+      if (errorMessage === 'Duplicate Email') {
+        handleValidation('email', '중복된 이메일 입니다.');
+      }
+      if (errorMessage[0] === 'email must be an email') {
+        handleValidation('email', '이메일 형식이 올바르지 않습니다.');
+      }
+    }
+  };
+
   const submitEmail = async () => {
     try {
-      const { data, status } = await axios.post(
-        'http://localhost:8000/api/auth/email',
-        {
-          email,
-        },
-      );
-      if (status === 201) {
-        setEmailAuth(true);
-        await localStorage.setItem('randomNumber', data.number);
-        alert('please check your email');
-      }
+      await sendDuplicateRequest(email);
+      const data = await sendEmailRequest(email);
+      setEmailAuth(true);
+      await localStorage.setItem('randomNumber', data.number);
     } catch (err) {
-      if (err instanceof AxiosError) {
-        const errorMessage = err.response?.data.message;
-        if (errorMessage === 'User with this email does not exist') {
-          alert('error');
-        }
-      }
+      handleRequestError(err);
     }
   };
 
@@ -149,9 +211,11 @@ function Index() {
             labelText={'이메일'}
             buttonText={'인증'}
             placeholder={'이메일'}
+            isError={validates.email.isError}
+            errorMsg={validates.email.errorMsg}
             onChange={handleInputValues}
             onClick={submitEmail}
-            btnDisabled={!email}
+            btnDisabled={!email || emailAuth || validates.email.isError}
           />
           {emailAuth ? <EmailAuthCode classBind="mb-[3rem]" /> : null}
           <Input
@@ -162,6 +226,8 @@ function Index() {
             infoText={'영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.'}
             labelText={'비밀번호'}
             placeholder={'비밀번호'}
+            isError={validates.password.isError}
+            errorMsg={validates.password.errorMsg}
             onChange={handleInputValues}
           />
           <Input
@@ -171,6 +237,8 @@ function Index() {
             type={'password'}
             labelText={'비밀번호 확인'}
             placeholder={'비밀번호 확인'}
+            isError={validates.passwordConfirm.isError}
+            errorMsg={validates.passwordConfirm.errorMsg}
             onChange={handleInputValues}
           />
           <Input
