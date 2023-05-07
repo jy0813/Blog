@@ -1,11 +1,29 @@
-.input_btn {
-  display: flex;
-  align-items: flex-end;
-  column-gap: 1.6rem;
+.input_wrap {
+  min-width: 32rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  word-break: keep-all;
+}
+
+.info {
+  font-size: 1.4rem;
+  margin-bottom: 1.2rem;
 }
 
 p.error {
   margin-top: 1rem;
   font-size: 1.4rem;
   color: rgb(255, 119, 119);
+}
+
+.input-btn {
+  display: flex;
+  align-items: center;
+  column-gap: 1.6rem;
 }

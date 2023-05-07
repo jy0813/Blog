@@ -11,6 +11,7 @@ import App from './App';
 import Reset from './pages/auth/reset';
 import Register from './pages/auth/register';
 import Mypage from './pages/auth/mypage';
+import EmailConfirm from './pages/auth/email-confirm';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/reset', element: <Reset /> },
       { path: '/auth/mypage', element: <Mypage /> },
+      { path: '/auth/email-confirm', element: <EmailConfirm /> },
     ],
   },
 ]);

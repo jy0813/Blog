@@ -26,6 +26,7 @@ function Index() {
           <div className={styles['user-wrap']}>
             <Input
               classBind="mr-[1.4rem]"
+              name="searchValue"
               value={searchValue}
               type={'text'}
               placeholder={'통합검색'}

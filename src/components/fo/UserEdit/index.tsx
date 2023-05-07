@@ -1,10 +1,10 @@
 import React from 'react';
 import Title from '../../atom/Title';
 import styles from './index.module.css';
-import InputLabel from '../../atom/InputLabel';
 import Button from '../../atom/Button';
 import File from '../../atom/File';
 import { UserData } from '@/pages/auth/mypage';
+import Input from '../../atom/Input';
 
 interface IProps {
   userData: UserData;
@@ -16,7 +16,7 @@ function Index({ userData }: IProps) {
         <div className={styles['edit-header']}>
           <Title classBind="mb-[3rem]" title={'회원정보수정'} level={5} />
         </div>
-        <InputLabel
+        <Input
           classBind="mb-[3rem]"
           name="email"
           value={userData.email}
@@ -25,7 +25,7 @@ function Index({ userData }: IProps) {
           placeholder={'이메일'}
           onChange={() => console.log('')}
         />
-        <InputLabel
+        <Input
           classBind="mb-[3rem]"
           name="password"
           value={''}
@@ -34,7 +34,7 @@ function Index({ userData }: IProps) {
           placeholder={'비밀번호'}
           onChange={() => console.log('')}
         />
-        <InputLabel
+        <Input
           classBind="mb-[3rem]"
           name="passwordconfirem"
           value={''}
@@ -52,7 +52,7 @@ function Index({ userData }: IProps) {
           onChange={() => console.log('dasfas')}
           accept={'image/*'}
         />
-        <InputLabel
+        <Input
           classBind="mb-[3rem]"
           name="nickname"
           value={userData.userName}

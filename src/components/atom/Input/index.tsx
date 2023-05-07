@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './index.module.css';
 
 interface IProps {
-  name?: string;
+  name: string;
   value: string | number;
   type: string;
+  infoText?: string;
+  labelText?: string;
   placeholder: string;
+  className?: string;
   classBind?: string;
   disabled?: boolean;
   maxLength?: number;
@@ -18,7 +21,10 @@ function Input({
   name,
   value,
   type,
+  infoText,
+  labelText,
   placeholder,
+  className,
   classBind,
   onChange,
   disabled = false,
@@ -29,19 +35,19 @@ function Input({
   const errorStyles = isError ? styles.error : '';
   return (
     <div className={`${classBind} ${styles['input_wrap']}`}>
-      <label className={`${styles['input_label']}`}>
-        <input
-          name={name}
-          value={value}
-          type={type}
-          placeholder={placeholder}
-          className={`${styles.input} ${errorStyles}`}
-          onChange={onChange}
-          disabled={disabled}
-          maxLength={maxLength}
-        />
-      </label>
-      {isError && <p className={`${errorStyles}`}>{errorMsg}</p>}
+      {labelText ? <label className={styles.label}>{labelText}</label> : null}
+      {infoText ? <p className={styles.info}>{infoText}</p> : null}
+      <input
+        name={name}
+        value={value}
+        type={type}
+        placeholder={placeholder}
+        className={`${styles.input} ${errorStyles} ${className}`}
+        onChange={onChange}
+        disabled={disabled}
+        maxLength={maxLength}
+      />
+      {isError && errorMsg && <p className={`${errorStyles}`}>{errorMsg}</p>}
     </div>
   );
 }

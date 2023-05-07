@@ -4,30 +4,34 @@ import Container from '../../../components/organism/Container';
 import styles from './index.module.css';
 import InputBtn from '../../../components/molecule/InputBtn';
 import Button from '../../../components/atom/Button';
+import axios from 'axios';
 
 function Index() {
   const [emailValue, setEmailValue] = useState<string>('');
+  const verificationEmail = async () => {
+    await axios.post('http://localhost:8000/api/email/confirm');
+  };
   return (
     <Layout>
       <Container classBind="flex items-center flex-1">
         <div className={styles['reset-wrap']}>
           <div className={styles['reset-area']}>
             <p>가입한 이메일 주소를 입력해주세요.</p>
-            <InputBtn>
-              <InputBtn.Input
-                value={emailValue}
-                type={'text'}
-                placeholder={'이메일'}
-                onChange={(e) => setEmailValue(e.target.value)}
-              />
-              <InputBtn.Button
-                size={'large'}
-                disabled={!emailValue}
-                onClick={() => console.log('')}
-              >
-                확인
-              </InputBtn.Button>
-            </InputBtn>
+            {/*<InputBtn>*/}
+            {/*  <InputBtn.Input*/}
+            {/*    value={emailValue}*/}
+            {/*    type={'text'}*/}
+            {/*    placeholder={'이메일'}*/}
+            {/*    onChange={(e) => setEmailValue(e.target.value)}*/}
+            {/*  />*/}
+            {/*  <InputBtn.Button*/}
+            {/*    size={'large'}*/}
+            {/*    disabled={!emailValue}*/}
+            {/*    onClick={() => console.log('')}*/}
+            {/*  >*/}
+            {/*    확인*/}
+            {/*  </InputBtn.Button>*/}
+            {/*</InputBtn>*/}
           </div>
           <Button classBind="mt-[2rem]" onClick={() => console.log('')}>
             이메일로 인증코드 받기

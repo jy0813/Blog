@@ -9,8 +9,9 @@ import naver from '../../../assets/images/sns-naver.png';
 import InputBtn from '../../../components/molecule/InputBtn';
 import Checkbox from '../../../components/atom/Checkbox';
 import Button from '../../../components/atom/Button';
-import InputLabel from '../../../components/atom/InputLabel';
 import EmailAuthCode from '../../../components/fo/EmailAuthCode';
+import axios from 'axios';
+import Input from '../../../components/atom/Input';
 
 type RegisterProps = {
   userName: string;
@@ -81,10 +82,6 @@ function Index() {
     }));
   };
 
-  const handleEmailAuth = () => {
-    setEmailAuth(true);
-  };
-
   useEffect(() => {
     setIsAllChecked(
       ageCheck &&
@@ -94,6 +91,24 @@ function Index() {
         isEvent,
     );
   }, [inputValues]);
+
+  const submitEmail = async () => {
+    setEmailAuth(true);
+    try {
+      const { data, status } = await axios.post(
+        'http://localhost:8000/api/auth/email',
+        {
+          email,
+        },
+      );
+      if (status === 201) {
+        await localStorage.setItem('randomNumber', data.number);
+        alert('please check your email');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <main className={styles['register-wrap']}>
@@ -121,25 +136,20 @@ function Index() {
           </div>
         </div>
         <div className={styles['register-body']}>
-          <InputBtn classBind="mb-[3rem]">
-            <InputBtn.InputLabel
-              name="email"
-              value={email}
-              type={'text'}
-              labelText={'이메일'}
-              placeholder={'이메일'}
-              onChange={handleInputValues}
-            />
-            <InputBtn.Button
-              size={'large'}
-              disabled={!email}
-              onClick={handleEmailAuth}
-            >
-              인증
-            </InputBtn.Button>
-          </InputBtn>
+          <InputBtn
+            classBind="mb-[3rem]"
+            name="email"
+            value={email}
+            type={'text'}
+            labelText={'이메일'}
+            buttonText={'인증'}
+            placeholder={'이메일'}
+            onChange={handleInputValues}
+            onClick={submitEmail}
+            btnDisabled={!email}
+          />
           {emailAuth ? <EmailAuthCode classBind="mb-[3rem]" /> : null}
-          <InputLabel
+          <Input
             classBind="w-full mb-[3rem]"
             name="password"
             value={password}
@@ -147,11 +157,9 @@ function Index() {
             infoText={'영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.'}
             labelText={'비밀번호'}
             placeholder={'비밀번호'}
-            isError={true}
-            errorMsg={'테스트 입니다.'}
             onChange={handleInputValues}
           />
-          <InputLabel
+          <Input
             classBind="w-full  mb-[3rem]"
             name="passwordConfirm"
             value={passwordConfirm}
@@ -160,7 +168,7 @@ function Index() {
             placeholder={'비밀번호 확인'}
             onChange={handleInputValues}
           />
-          <InputLabel
+          <Input
             classBind="w-full  mb-[3rem]"
             name="userName"
             value={userName}
