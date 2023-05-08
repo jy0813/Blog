@@ -12,6 +12,7 @@ import Reset from './pages/auth/reset';
 import Register from './pages/auth/register';
 import Mypage from './pages/auth/mypage';
 import EmailConfirm from './pages/auth/email-confirm';
+import ResetPw from './pages/auth/reset-pw';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: '/auth/reset', element: <Reset /> },
       { path: '/auth/mypage', element: <Mypage /> },
       { path: '/auth/email-confirm', element: <EmailConfirm /> },
+      { path: '/auth/reset-pw', element: <ResetPw /> },
     ],
   },
 ]);

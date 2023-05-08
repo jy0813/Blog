@@ -1,0 +1,12 @@
+.password-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--vh, 1vh) * 100);
+  background-color: #fafafa;
+}
+
+.input-area {
+  margin-top: 3rem;
+}

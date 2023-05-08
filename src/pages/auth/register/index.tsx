@@ -25,7 +25,7 @@ type RegisterProps = {
   isEvent: boolean;
 };
 
-type ErrorState = {
+export type ErrorState = {
   [key: string]: {
     isError: boolean;
     errorMsg: string;

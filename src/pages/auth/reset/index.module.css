@@ -7,9 +7,12 @@
 }
 
 .reset-wrap .reset-area p {
-  margin-bottom: 1.2rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 2rem;
+}
+
+.reset-wrap .reset-area p + p {
+  margin-bottom: 1.2rem;
 }
 
 .reset-wrap .customer-area {
