@@ -15,6 +15,8 @@ interface IProps {
   isError?: boolean;
   errorMsg?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 function Input({
@@ -27,6 +29,7 @@ function Input({
   className,
   classBind,
   onChange,
+  onBlur,
   disabled = false,
   isError = false,
   errorMsg,
@@ -46,6 +49,7 @@ function Input({
         onChange={onChange}
         disabled={disabled}
         maxLength={maxLength}
+        onBlur={onBlur}
       />
       {isError && errorMsg && <p className={`${errorStyles}`}>{errorMsg}</p>}
     </div>

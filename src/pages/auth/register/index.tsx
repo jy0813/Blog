@@ -31,6 +31,10 @@ export type ErrorState = {
     errorMsg: string;
   };
 };
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const passwordRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()\-_=+[\]{};:'",.<>/?]{8,}$/;
 
 function Index() {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
@@ -59,6 +63,10 @@ function Index() {
       isError: false,
       errorMsg: '',
     },
+    userName: {
+      isError: false,
+      errorMsg: '',
+    },
   });
 
   const {
@@ -74,7 +82,10 @@ function Index() {
   } = inputValues;
 
   const isInputValueEmpty = [userName, email, password].some((value) => !value);
-
+  const isInputValidFalse = Object.values(validates)
+    .map((item) => item)
+    .every((isError) => !isError);
+  console.log(isInputValidFalse);
   const handleInputValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputValue((prev) => ({
@@ -131,6 +142,28 @@ function Index() {
         isEvent,
     );
   }, [inputValues]);
+
+  const validationCheck = () => {
+    if (!email) {
+      handleValidation('email', '이메일을 입력해주세요.');
+    } else if (!emailRegex.test(email)) {
+      handleValidation('email', '이메일 형식이 올바르지 않습니다');
+    }
+    if (!passwordRegex.test(password)) {
+      handleValidation(
+        'password',
+        '비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.',
+      );
+    }
+    if (password !== passwordConfirm || !passwordConfirm) {
+      handleValidation('passwordConfirm', '비밀번호가 일치하지 않습니다.');
+    }
+    if (!userName) {
+      handleValidation('userName', '닉네임을 입력해주세요.');
+    } else if (userName.length < 2) {
+      handleValidation('userName', '2자 이상 입력해주세요.');
+    }
+  };
 
   const sendDuplicateRequest = async (email: string) => {
     const { data } = await axios.post(
@@ -215,6 +248,7 @@ function Index() {
             errorMsg={validates.email.errorMsg}
             onChange={handleInputValues}
             onClick={submitEmail}
+            onBlur={validationCheck}
             btnDisabled={!email || emailAuth || validates.email.isError}
           />
           {emailAuth ? <EmailAuthCode classBind="mb-[3rem]" /> : null}
@@ -229,6 +263,7 @@ function Index() {
             isError={validates.password.isError}
             errorMsg={validates.password.errorMsg}
             onChange={handleInputValues}
+            onBlur={validationCheck}
           />
           <Input
             classBind="w-full  mb-[3rem]"
@@ -240,6 +275,7 @@ function Index() {
             isError={validates.passwordConfirm.isError}
             errorMsg={validates.passwordConfirm.errorMsg}
             onChange={handleInputValues}
+            onBlur={validationCheck}
           />
           <Input
             classBind="w-full  mb-[3rem]"
@@ -250,7 +286,10 @@ function Index() {
             labelText={'닉네임'}
             placeholder={'닉네임'}
             maxLength={15}
+            isError={validates.userName.isError}
+            errorMsg={validates.userName.errorMsg}
             onChange={handleInputValues}
+            onBlur={validationCheck}
           />
           <Title title={'약관동의'} level={5} />
           <div className={styles['agree-area']}>

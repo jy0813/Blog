@@ -19,6 +19,7 @@ interface IProps {
   errorMsg?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
+  onBlur?: () => void;
 }
 
 function InputBtn({
@@ -32,6 +33,7 @@ function InputBtn({
   classBind,
   onChange,
   onClick,
+  onBlur,
   disabled = false,
   btnDisabled,
   isError = false,
@@ -53,6 +55,7 @@ function InputBtn({
           isError={isError}
           placeholder={placeholder}
           onChange={onChange}
+          onBlur={onBlur}
         />
         <Button onClick={onClick} disabled={btnDisabled}>
           {buttonText}
