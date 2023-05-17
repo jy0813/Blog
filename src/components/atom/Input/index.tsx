@@ -16,7 +16,6 @@ interface IProps {
   errorMsg?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
-  onFocus?: () => void;
 }
 
 function Input({

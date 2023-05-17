@@ -81,24 +81,31 @@ function Index() {
     agreeToPrivacyPolicy,
   } = inputValues;
 
-  const isInputValueEmpty = [userName, email, password].some((value) => !value);
-  const isInputValidFalse = Object.values(validates)
-    .map((item) => item)
-    .every((isError) => !isError);
-  console.log(isInputValidFalse);
+  const isFormValid = () => {
+    const isInputValueEmpty = Object.values(inputValues).every(
+      (value) => value,
+    );
+
+    const isInputValidFalse = Object.values(validates).every(
+      (validation) => !validation.isError,
+    );
+
+    return isInputValueEmpty && isInputValidFalse;
+  };
+
   const handleInputValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputValue((prev) => ({
       ...prev,
       [name]: value,
     }));
-    setValidates((prev) => ({
-      ...prev,
-      [name]: {
-        isError: false,
-        errorMsg: '',
-      },
-    }));
+    // setValidates((prev) => ({
+    //   ...prev,
+    //   [name]: {
+    //     isError: false,
+    //     errorMsg: '',
+    //   },
+    // }));
   };
 
   const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -351,7 +358,7 @@ function Index() {
           </div>
           <Button
             classBind="mt-[3rem]"
-            disabled={isInputValueEmpty}
+            disabled={!isFormValid()}
             onClick={() => console.log('')}
           >
             회원가입하기
