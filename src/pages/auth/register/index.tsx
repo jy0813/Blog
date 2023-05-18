@@ -31,6 +31,14 @@ export type ErrorState = {
     errorMsg: string;
   };
 };
+
+interface ValidationRules {
+  [key: string]: {
+    condition: (value: string | boolean) => boolean;
+    message: string;
+  }[];
+}
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const passwordRegex =
@@ -50,6 +58,18 @@ function Index() {
     isMarketing: false,
     isEvent: false,
   });
+  const {
+    userName,
+    email,
+    password,
+    passwordConfirm,
+    isMarketing,
+    isEvent,
+    ageCheck,
+    agreeToTerms,
+    agreeToPrivacyPolicy,
+  } = inputValues;
+
   const [validates, setValidates] = useState<ErrorState>({
     email: {
       isError: false,
@@ -69,77 +89,6 @@ function Index() {
     },
   });
 
-  const {
-    userName,
-    email,
-    password,
-    passwordConfirm,
-    isMarketing,
-    isEvent,
-    ageCheck,
-    agreeToTerms,
-    agreeToPrivacyPolicy,
-  } = inputValues;
-
-  const isFormValid = () => {
-    const isInputValueEmpty = Object.values(inputValues).every(
-      (value) => value,
-    );
-
-    const isInputValidFalse = Object.values(validates).every(
-      (validation) => !validation.isError,
-    );
-
-    return isInputValueEmpty && isInputValidFalse;
-  };
-
-  const handleInputValues = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputValue((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    // setValidates((prev) => ({
-    //   ...prev,
-    //   [name]: {
-    //     isError: false,
-    //     errorMsg: '',
-    //   },
-    // }));
-  };
-
-  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    setInputValue((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-  };
-
-  const handleAllCheckbox = () => {
-    setIsAllChecked((prev) => !prev);
-    const isChecked = !isAllChecked;
-    setInputValue((prev) => ({
-      ...prev,
-      ageCheck: isChecked,
-      agreeToTerms: isChecked,
-      agreeToPrivacyPolicy: isChecked,
-      isMarketing: isChecked,
-      isEvent: isChecked,
-    }));
-  };
-
-  const handleValidation = (name: string, errorMsg: string) => {
-    setValidates((prev) => {
-      const newValidates = { ...prev };
-      newValidates[name] = {
-        isError: true,
-        errorMsg: `${errorMsg}`,
-      };
-      return newValidates;
-    });
-  };
-
   useEffect(() => {
     setIsAllChecked(
       ageCheck &&
@@ -149,28 +98,6 @@ function Index() {
         isEvent,
     );
   }, [inputValues]);
-
-  const validationCheck = () => {
-    if (!email) {
-      handleValidation('email', '이메일을 입력해주세요.');
-    } else if (!emailRegex.test(email)) {
-      handleValidation('email', '이메일 형식이 올바르지 않습니다');
-    }
-    if (!passwordRegex.test(password)) {
-      handleValidation(
-        'password',
-        '비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.',
-      );
-    }
-    if (password !== passwordConfirm || !passwordConfirm) {
-      handleValidation('passwordConfirm', '비밀번호가 일치하지 않습니다.');
-    }
-    if (!userName) {
-      handleValidation('userName', '닉네임을 입력해주세요.');
-    } else if (userName.length < 2) {
-      handleValidation('userName', '2자 이상 입력해주세요.');
-    }
-  };
 
   const sendDuplicateRequest = async (email: string) => {
     const { data } = await axios.post(
@@ -217,6 +144,163 @@ function Index() {
     }
   };
 
+  const handleInputValues = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    setValidates((prev) => ({
+      ...prev,
+      [name]: {
+        isError: false,
+        errorMsg: '',
+      },
+    }));
+  };
+
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setInputValue((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
+  const handleAllCheckbox = () => {
+    setIsAllChecked((prev) => !prev);
+    const isChecked = !isAllChecked;
+    setInputValue((prev) => ({
+      ...prev,
+      ageCheck: isChecked,
+      agreeToTerms: isChecked,
+      agreeToPrivacyPolicy: isChecked,
+      isMarketing: isChecked,
+      isEvent: isChecked,
+    }));
+  };
+
+  const isFormValid = () => {
+    const isInputValueEmpty = Object.values(inputValues).every(
+      (value) => value,
+    );
+
+    const isInputValidFalse = Object.values(validates).every(
+      (validation) => !validation.isError,
+    );
+
+    return isInputValueEmpty && isInputValidFalse;
+  };
+
+  // const validationCheck = (name: string, value: string) => {
+  //   if (name === 'email') {
+  //     if (!value) {
+  //       handleValidation('email', '이메일을 입력해주세요.');
+  //     } else if (!emailRegex.test(value)) {
+  //       handleValidation('email', '이메일 형식이 올바르지 않습니다');
+  //     }
+  //   } else if (name === 'password') {
+  //     if (!value) {
+  //       handleValidation('password', '비밀번호를 입력해주세요.');
+  //     } else if (!passwordRegex.test(value)) {
+  //       handleValidation(
+  //         'password',
+  //         '비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.',
+  //       );
+  //     }
+  //   } else if (name === 'passwordConfirm') {
+  //     if (password !== value || !value) {
+  //       handleValidation('passwordConfirm', '비밀번호가 일치하지 않습니다.');
+  //     }
+  //   } else if (name === 'userName') {
+  //     if (!value) {
+  //       handleValidation('userName', '닉네임을 입력해주세요.');
+  //     }
+  //     if (value.length < 2) {
+  //       handleValidation('userName', '2자 이상 입력해주세요.');
+  //     }
+  //   }
+  // };
+
+  const handleValidation = (name: string, errorMsg: string) => {
+    setValidates((prev) => ({
+      ...prev,
+      [name]: {
+        isError: true,
+        errorMsg: `${errorMsg}`,
+      },
+    }));
+  };
+
+  const validationRules: ValidationRules = {
+    email: [
+      {
+        condition: (value) => !value,
+        message: '이메일을 입력해주세요.',
+      },
+      {
+        condition: (value) => !emailRegex.test(value as string),
+        message: '이메일 형식이 올바르지 않습니다.',
+      },
+    ],
+    password: [
+      {
+        condition: (value) => !value,
+        message: '비밀번호를 입력해주세요.',
+      },
+      {
+        condition: (value) => !passwordRegex.test(value as string),
+        message: '비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.',
+      },
+    ],
+    passwordConfirm: [
+      {
+        condition: (value) => password !== value || !value,
+        message: '비밀번호가 일치하지 않습니다.',
+      },
+    ],
+    userName: [
+      {
+        condition: (value) => !value,
+        message: '닉네임을 입력해주세요.',
+      },
+      {
+        condition: (value) => (value as string).length < 2,
+        message: '2자 이상 입력해주세요.',
+      },
+    ],
+    requiredAgree: [
+      {
+        condition: (value) => !value,
+        message: '2자 이상 입력해주세요.',
+      },
+    ],
+  };
+
+  const checkboxValid = () => {
+    const required = [ageCheck, agreeToTerms, agreeToPrivacyPolicy].every(
+      (isChecked) => isChecked,
+    );
+    if (!required) {
+      const rules = validationRules['requiredAgree'];
+      if (rules) {
+        const invalidRule = rules.find((rule) => rule.condition(required));
+      }
+    }
+  };
+
+  checkboxValid();
+
+  const validationCheck = (name: string, value: string | boolean) => {
+    const rules = validationRules[name];
+    if (rules) {
+      const invalidRule = rules.find((rule) => rule.condition(value));
+      if (invalidRule) {
+        handleValidation(name, invalidRule.message);
+      }
+    }
+  };
+
   return (
     <main className={styles['register-wrap']}>
       <h1>
@@ -255,8 +339,13 @@ function Index() {
             errorMsg={validates.email.errorMsg}
             onChange={handleInputValues}
             onClick={submitEmail}
-            onBlur={validationCheck}
-            btnDisabled={!email || emailAuth || validates.email.isError}
+            onBlur={() => validationCheck('email', email)}
+            btnDisabled={
+              !email ||
+              emailAuth ||
+              validates.email.isError ||
+              !emailRegex.test(email)
+            }
           />
           {emailAuth ? <EmailAuthCode classBind="mb-[3rem]" /> : null}
           <Input
@@ -270,7 +359,7 @@ function Index() {
             isError={validates.password.isError}
             errorMsg={validates.password.errorMsg}
             onChange={handleInputValues}
-            onBlur={validationCheck}
+            onBlur={() => validationCheck('password', password)}
           />
           <Input
             classBind="w-full  mb-[3rem]"
@@ -282,7 +371,7 @@ function Index() {
             isError={validates.passwordConfirm.isError}
             errorMsg={validates.passwordConfirm.errorMsg}
             onChange={handleInputValues}
-            onBlur={validationCheck}
+            onBlur={() => validationCheck('passwordConfirm', passwordConfirm)}
           />
           <Input
             classBind="w-full  mb-[3rem]"
@@ -296,10 +385,10 @@ function Index() {
             isError={validates.userName.isError}
             errorMsg={validates.userName.errorMsg}
             onChange={handleInputValues}
-            onBlur={validationCheck}
+            onBlur={() => validationCheck('userName', userName)}
           />
           <Title title={'약관동의'} level={5} />
-          <div className={styles['agree-area']}>
+          <div className={`${styles['agree-area']}`}>
             <div className={styles['all-checkbox-area']}>
               <Checkbox
                 name="allAgree"
