@@ -46,6 +46,7 @@ const passwordRegex =
 
 function Index() {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [authCompleted, setAuthCompleted] = useState<boolean>(false);
   const [emailAuth, setEmailAuth] = useState<boolean>(false);
   const [inputValues, setInputValue] = useState<RegisterProps>({
     userName: '',
@@ -87,6 +88,10 @@ function Index() {
       isError: false,
       errorMsg: '',
     },
+    requiredAgree: {
+      isError: false,
+      errorMsg: '',
+    },
   });
 
   useEffect(() => {
@@ -111,13 +116,7 @@ function Index() {
     const { data } = await axios.post('http://localhost:8000/api/auth/email', {
       email,
     });
-    setValidates((prev) => ({
-      ...prev,
-      email: {
-        isError: false,
-        errorMsg: '',
-      },
-    }));
+
     return data;
   };
 
@@ -144,6 +143,11 @@ function Index() {
     }
   };
 
+  const emailAuthControls = (isSuccess: boolean, isCompleted: boolean) => {
+    setEmailAuth(isSuccess);
+    setAuthCompleted(isCompleted);
+  };
+
   const handleInputValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputValue((prev) => ({
@@ -157,13 +161,24 @@ function Index() {
         errorMsg: '',
       },
     }));
+    if (name === 'email' && value !== inputValues.email) {
+      setEmailAuth(false);
+    }
   };
 
   const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     const { name, checked } = e.target;
     setInputValue((prev) => ({
       ...prev,
       [name]: checked,
+    }));
+    setValidates((prev) => ({
+      ...prev,
+      requiredAgree: {
+        isError: false,
+        errorMsg: '',
+      },
     }));
   };
 
@@ -178,49 +193,28 @@ function Index() {
       isMarketing: isChecked,
       isEvent: isChecked,
     }));
+    setValidates((prev) => ({
+      ...prev,
+      requiredAgree: {
+        isError: false,
+        errorMsg: '',
+      },
+    }));
   };
 
   const isFormValid = () => {
-    const isInputValueEmpty = Object.values(inputValues).every(
-      (value) => value,
-    );
+    const filteredValues = Object.entries(inputValues)
+      .filter(([key]) => key !== 'isMarketing' && key !== 'isEvent')
+      .map(([_, value]) => value);
+
+    const isInputValueEmpty = filteredValues.every((value) => value);
 
     const isInputValidFalse = Object.values(validates).every(
       (validation) => !validation.isError,
     );
 
-    return isInputValueEmpty && isInputValidFalse;
+    return authCompleted && isInputValueEmpty && isInputValidFalse;
   };
-
-  // const validationCheck = (name: string, value: string) => {
-  //   if (name === 'email') {
-  //     if (!value) {
-  //       handleValidation('email', '이메일을 입력해주세요.');
-  //     } else if (!emailRegex.test(value)) {
-  //       handleValidation('email', '이메일 형식이 올바르지 않습니다');
-  //     }
-  //   } else if (name === 'password') {
-  //     if (!value) {
-  //       handleValidation('password', '비밀번호를 입력해주세요.');
-  //     } else if (!passwordRegex.test(value)) {
-  //       handleValidation(
-  //         'password',
-  //         '비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.',
-  //       );
-  //     }
-  //   } else if (name === 'passwordConfirm') {
-  //     if (password !== value || !value) {
-  //       handleValidation('passwordConfirm', '비밀번호가 일치하지 않습니다.');
-  //     }
-  //   } else if (name === 'userName') {
-  //     if (!value) {
-  //       handleValidation('userName', '닉네임을 입력해주세요.');
-  //     }
-  //     if (value.length < 2) {
-  //       handleValidation('userName', '2자 이상 입력해주세요.');
-  //     }
-  //   }
-  // };
 
   const handleValidation = (name: string, errorMsg: string) => {
     setValidates((prev) => ({
@@ -272,24 +266,32 @@ function Index() {
     requiredAgree: [
       {
         condition: (value) => !value,
-        message: '2자 이상 입력해주세요.',
+        message: '필수 항목에 동의해주세요.',
       },
     ],
   };
 
-  const checkboxValid = () => {
-    const required = [ageCheck, agreeToTerms, agreeToPrivacyPolicy].every(
-      (isChecked) => isChecked,
-    );
-    if (!required) {
-      const rules = validationRules['requiredAgree'];
-      if (rules) {
-        const invalidRule = rules.find((rule) => rule.condition(required));
-      }
-    }
-  };
+  const checkboxValid = (e: React.FocusEvent<HTMLDivElement>) => {
+    const currentTarget = e.currentTarget;
 
-  checkboxValid();
+    requestAnimationFrame(() => {
+      if (!currentTarget.contains(document.activeElement)) {
+        const required = [ageCheck, agreeToTerms, agreeToPrivacyPolicy].every(
+          (isChecked) => isChecked,
+        );
+        console.log(required);
+        if (!required) {
+          const rules = validationRules['requiredAgree'];
+          if (rules) {
+            const invalidRule = rules.find((rule) => rule.condition(required));
+            if (invalidRule) {
+              handleValidation('requiredAgree', invalidRule.message);
+            }
+          }
+        }
+      }
+    });
+  };
 
   const validationCheck = (name: string, value: string | boolean) => {
     const rules = validationRules[name];
@@ -340,14 +342,21 @@ function Index() {
             onChange={handleInputValues}
             onClick={submitEmail}
             onBlur={() => validationCheck('email', email)}
+            disabled={authCompleted}
             btnDisabled={
               !email ||
               emailAuth ||
               validates.email.isError ||
-              !emailRegex.test(email)
+              !emailRegex.test(email) ||
+              (!emailAuth && authCompleted)
             }
           />
-          {emailAuth ? <EmailAuthCode classBind="mb-[3rem]" /> : null}
+          {emailAuth ? (
+            <EmailAuthCode
+              emailAuth={emailAuthControls}
+              classBind="mb-[3rem]"
+            />
+          ) : null}
           <Input
             classBind="w-full mb-[3rem]"
             name="password"
@@ -388,13 +397,19 @@ function Index() {
             onBlur={() => validationCheck('userName', userName)}
           />
           <Title title={'약관동의'} level={5} />
-          <div className={`${styles['agree-area']}`}>
+          <div
+            className={`${styles['agree-area']} ${
+              validates.requiredAgree.isError ? styles.error : ''
+            }`}
+            onBlur={checkboxValid}
+            tabIndex={0}
+          >
             <div className={styles['all-checkbox-area']}>
               <Checkbox
                 name="allAgree"
                 checked={isAllChecked}
-                required={true}
                 onChange={handleAllCheckbox}
+                requiredText={'선택항목에 대한 동의 포함'}
               >
                 전체동의
               </Checkbox>
@@ -404,6 +419,7 @@ function Index() {
               name="ageCheck"
               checked={ageCheck}
               required={true}
+              requiredText={'필수'}
               onChange={handleCheckbox}
             >
               만 14세 이상입니다
@@ -413,6 +429,7 @@ function Index() {
               name="agreeToTerms"
               checked={agreeToTerms}
               required={true}
+              requiredText={'필수'}
               onChange={handleCheckbox}
             >
               이용약관
@@ -422,6 +439,7 @@ function Index() {
               name="agreeToPrivacyPolicy"
               checked={agreeToPrivacyPolicy}
               required={true}
+              requiredText={'필수'}
               onChange={handleCheckbox}
             >
               개인정보수집 및 이용동의
@@ -431,6 +449,7 @@ function Index() {
               name="isMarketing"
               checked={isMarketing}
               required={false}
+              requiredText={'선택'}
               onChange={handleCheckbox}
             >
               개인정보 마케팅 활용 동의
@@ -440,11 +459,15 @@ function Index() {
               name="isEvent"
               checked={isEvent}
               required={false}
+              requiredText={'선택'}
               onChange={handleCheckbox}
             >
               이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신
             </Checkbox>
           </div>
+          {validates.requiredAgree.isError && (
+            <p className={styles.error}>{validates.requiredAgree.errorMsg}</p>
+          )}
           <Button
             classBind="mt-[3rem]"
             disabled={!isFormValid()}

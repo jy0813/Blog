@@ -8,6 +8,7 @@ interface IProps {
   name?: string;
   classBind?: string;
   required?: boolean;
+  requiredText?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,6 +20,7 @@ function Checkbox({
   classBind,
   onChange,
   required,
+  requiredText,
 }: IProps) {
   return (
     <label className={`${styles.label} ${classBind}`}>
@@ -33,10 +35,10 @@ function Checkbox({
       />
       <p className={styles.text}>
         {children}
-        {required ? (
-          <span className={styles.required}>(필수)</span>
-        ) : (
-          <span className={styles.choice}>(선택)</span>
+        {requiredText === '필수' ? (
+          <span className={styles.required}>{`(${requiredText})`}</span>
+        ) : requiredText === undefined ? null : (
+          <span className={styles.choice}>{`(${requiredText})`}</span>
         )}
       </p>
     </label>

@@ -5,9 +5,10 @@ import InputBtn from '../../molecule/InputBtn';
 
 interface IProps {
   classBind?: string;
+  emailAuth: (isSuccess: boolean, isCompleted: boolean) => void;
 }
 
-function Index({ classBind }: IProps) {
+function Index({ classBind, emailAuth }: IProps) {
   const [emailAuthValue, setEmailAuthValue] = useState<string>('');
   const verificationNumber = () => {
     const localNumber = localStorage.getItem('randomNumber');
@@ -15,6 +16,7 @@ function Index({ classBind }: IProps) {
       return alert('다시 이메일 인증을 완료해주세요.');
     }
     localStorage.removeItem('randomNumber');
+    emailAuth(false, true);
     alert('인증완료');
   };
   return (
