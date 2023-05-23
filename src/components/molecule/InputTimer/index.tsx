@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@/components/atom/Button';
 import Input from '@/components/atom/Input';
 
@@ -23,13 +23,8 @@ function InputTimer({
   onClick,
   onChange,
 }: IProps) {
-  const [time, setTime] = useState<number>(180);
-  const updateTimer = useMemo(() => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return { minutes, seconds };
-  }, [time]);
-
+  const minutes = Math.floor(timer / 60);
+  const remainingSeconds = timer % 60;
   return (
     <div>
       <Input
@@ -39,7 +34,7 @@ function InputTimer({
         placeholder={placeholder}
         onChange={onChange}
       />
-      <span>{timer}</span>
+      <span>{`${minutes}:${remainingSeconds}`}</span>
       <Button onClick={onClick}>{buttonText}</Button>
     </div>
   );

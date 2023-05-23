@@ -12,6 +12,7 @@ import Button from '../../../components/atom/Button';
 import EmailAuthCode from '../../../components/fo/EmailAuthCode';
 import axios, { AxiosError } from 'axios';
 import Input from '../../../components/atom/Input';
+import useInterval from '../../..//hooks/useInterval';
 
 type RegisterProps = {
   userName: string;
@@ -45,6 +46,7 @@ const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()\-_=+[\]{};:'",.<>/?]{8,}$/;
 
 function Index() {
+  const [timer, setTimer] = useState<number | null>(null);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const [authCompleted, setAuthCompleted] = useState<boolean>(false);
   const [emailAuth, setEmailAuth] = useState<boolean>(false);
@@ -70,6 +72,15 @@ function Index() {
     agreeToTerms,
     agreeToPrivacyPolicy,
   } = inputValues;
+
+  const startTimer = () => {
+    setTimer(180);
+  };
+  const decreaseTimer = () => {
+    setTimer((prev) => (prev as number) - 1);
+  };
+
+  useInterval(decreaseTimer, timer !== null ? 1000 : null);
 
   const [validates, setValidates] = useState<ErrorState>({
     email: {
@@ -138,6 +149,7 @@ function Index() {
       const data = await sendEmailRequest(email);
       setEmailAuth(true);
       await localStorage.setItem('randomNumber', data.number);
+      startTimer();
     } catch (err) {
       handleRequestError(err);
     }
@@ -329,6 +341,7 @@ function Index() {
           </div>
         </div>
         <div className={styles['register-body']}>
+          {timer}
           <InputBtn
             classBind="mb-[3rem]"
             name="email"
